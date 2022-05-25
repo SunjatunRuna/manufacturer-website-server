@@ -29,10 +29,18 @@ async function run(){
             const service = await serviceCollection.findOne(query);
             res.send(service);
         });
+
+        app.get('/order', async(req, res) =>{
+            const buyer = req.query.buyer;
+            const query = {buyer: buyer};
+            const order = await orderCollection.find(query).toArray();
+            res.send(order);
+
+        })
         app.post('/order', async (req, res) => {
             const order = req.body;
             const query = {name: order.order, quantity: order.quantity, buyer: order.buyer}
-            
+
             const result = await orderCollection.insertOne(order);
             res.send(result);
           });
