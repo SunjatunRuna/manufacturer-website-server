@@ -125,7 +125,12 @@ async function run() {
             const doctors = await profileCollection.find().toArray();
             res.send(doctors);
           });
-
+          app.delete('/service/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await serviceCollection.deleteOne(query);
+            res.send(result);
+        })
 
     }
     finally {
