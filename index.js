@@ -34,6 +34,7 @@ async function run() {
         const orderCollection = client.db('manufacturerWebsite').collection('order');
         const userCollection = client.db('manufacturerWebsite').collection('users');
         const profileCollection = client.db('manufacturerWebsite').collection('profile');
+        const reviewCollection = client.db('manufacturerWebsite').collection('review');
 
         app.get('/service', async (req, res) => {
             const query = {};
@@ -127,9 +128,19 @@ async function run() {
             const result = await profileCollection.insertOne(profile);
             res.send(result);
         });
+        app.post('/review', async (req, res) =>{
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.send(result);
+        });
+        app.get('/review', async (req, res) => {
+            const query = {}
+            const review = await reviewCollection.find(query).toArray();
+            res.send(review);
+          });
         app.get('/profile', async (req, res) => {
-            const doctors = await profileCollection.find().toArray();
-            res.send(doctors);
+            const profile = await profileCollection.find().toArray();
+            res.send(profile);
           });
           app.delete('/service/:id', async (req, res) => {
             const id = req.params.id;
